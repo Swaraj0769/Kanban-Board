@@ -125,9 +125,13 @@ section .task-column .task button{
     width: 100vw;
     top: 0;
     left: 0;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+}
+.modal.active{
+    display: flex;
+    /* z-index: 100; */
 }
 
 .modal .bg{
