@@ -7,34 +7,63 @@ const done = document.querySelector('#done')
 const columns = [todo, progress, done]
 let dragElement = null;
 
+function addTask(title, desc, column){
+    const div = document.createElement("div")
+
+    div.classList.add("task")
+    div.setAttribute("draggable", "true")
+
+    div.innerHTML = `
+        <h2>${title}</h2>
+        <p>${desc}</p>
+        <button>Delete</button>
+    `
+    column.appendChild(div)
+
+    div.addEventListener("drag", (e)=>{
+        dragElement = div;
+    })
+
+    return div;
+}
+
+function updateTaskCount(){
+    columns.forEach(col =>{
+            const tasks = col.querySelectorAll(".task")
+            const count = col.querySelector('.right')
+
+            taskData[ col.id ] = Array.from(tasks).map(t =>{
+                return {
+                    title: t.querySelector("h2").innerText,
+                    desc: t.querySelector('p').innerText
+                }
+            })
+
+            localStorage.setItem("tasks", JSON.stringify(taskData));            
+            count.innerText = tasks.length;
+    })
+}
+
 if(localStorage.getItem("tasks")){
 
     const data = JSON.parse(localStorage.getItem("tasks"))
 
-    console.log(data);
+    // console.log(data);
     
     for (const col in data) {
         
-        const div = document.querySelector(`#${col}`)
+        const column = document.querySelector(`#${col}`)
         data[col].forEach(task =>{
-            const div = document.createElement("div")
-
-            div.classList.add("task")
-            div.setAttribute("draggable", "true")
-
-            div.innerHTML = `
-                <h2>${task.title}</h2>
-                <p>${task.desc}</p>
-                <button>Delete</button>
-            `
-            column.appendChild(div)
-
-            div.addEventListener("drag", (e)=>{
-                dragElement = div
-            })
+            addTask(task.title, task.desc, column)
         })
         
+        // const tasks = column.querySelectorAll(".task")
+        // const count = column.querySelector(".right")
+        // count.innerText = tasks.length;
     }
+
+    updateTaskCount();
+
 }
 
 // console.log(todo, progress, done);   
@@ -87,25 +116,12 @@ function addDragEventOnColumn(column){
 
     column.addEventListener('drop', (e)=>{
         e.preventDefault();
-        console.log("Dropped", dragElement, column);
+        // console.log("Dropped", dragElement, column);
 
         column.appendChild(dragElement)
         column.classList.remove("hover-over")
         
-        columns.forEach(col =>{
-            const tasks = col.querySelectorAll(".task")
-            const count = col.querySelector('.right')
-
-            taskData[ col.id ] = Array.from(tasks).map(t =>{
-                return {
-                    title: t.querySelector("h2").innerText,
-                    desc: t.querySelector('p').innerText
-                }
-            })
-
-            localStorage.setItem("tasks", JSON.stringify(taskData));            
-            count.innerText = tasks.length;
-        })
+        updateTaskCount();        
     })
 }
 
@@ -138,37 +154,13 @@ addTaskButton.addEventListener("click", ()=>{
     //                 <button>Delete</button>
     //             </div>`
 
-    const div = document.createElement("div")
+    addTask(taskTitle, taskDesc, todo)
 
-    div.classList.add("task")
-    div.setAttribute("draggable", "true")
+    updateTaskCount();
 
-    div.innerHTML = `
-        <h2>${taskTitle}</h2>
-        <p>${taskDesc}</p>
-        <button id='del-task'>Delete</button>
-    `
-
-    todo.appendChild(div)
-
-    columns.forEach(col =>{
-            const tasks = col.querySelectorAll(".task")
-            const count = col.querySelector('.right')
-
-            taskData[ col.id ] = Array.from(tasks).map(t =>{
-                return {
-                    title: t.querySelector("h2").innerText,
-                    desc: t.querySelector('p').innerText
-                }
-            })
-
-            localStorage.setItem("tasks", JSON.stringify(taskData));            
-            count.innerText = tasks.length;
-    })
-
-    div.addEventListener("drag", (e)=>{
-        dragElement = div
-    })
+    // div.addEventListener("drag", (e)=>{
+    //     dragElement = div
+    // })
 
     modal.classList.remove("active")
 })
