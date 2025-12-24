@@ -105,7 +105,7 @@ addTaskButton.addEventListener("click", ()=>{
     div.innerHTML = `
         <h2>${taskTitle}</h2>
         <p>${taskDesc}</p>
-        <button>Delete</button>
+        <button id='del-task'>Delete</button>
     `
 
     todo.appendChild(div)
@@ -122,4 +122,13 @@ addTaskButton.addEventListener("click", ()=>{
     })
 
     modal.classList.remove("active")
+})
+
+
+/* Task Delete Logic */
+const delTaskBtn = document.querySelector('#del-task')
+const taskCol = document.querySelectorAll('.task-column')
+
+delTaskBtn.addEventListener("click", ()=>{
+    taskCol.classList.remove(".task")
 })
