@@ -1,3 +1,6 @@
+let taskData = {}
+
+
 const todo = document.querySelector('#todo')
 const progress = document.querySelector('#progress')
 const done = document.querySelector('#done')
@@ -114,6 +117,14 @@ addTaskButton.addEventListener("click", ()=>{
             const tasks = col.querySelectorAll(".task")
             const count = col.querySelector('.right')
 
+            taskData[ col.id ] = Array.from(tasks).map(t =>{
+                return {
+                    title: t.querySelector("h2").innerText,
+                    desc: t.querySelector('p').innerText
+                }
+            })
+
+            localStorage.setItem("tasks", JSON.stringify(taskData));            
             count.innerText = tasks.length;
     })
 
