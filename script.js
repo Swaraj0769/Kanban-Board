@@ -7,6 +7,36 @@ const done = document.querySelector('#done')
 const columns = [todo, progress, done]
 let dragElement = null;
 
+if(localStorage.getItem("tasks")){
+
+    const data = JSON.parse(localStorage.getItem("tasks"))
+
+    console.log(data);
+    
+    for (const col in data) {
+        
+        const div = document.querySelector(`#${col}`)
+        data[col].forEach(task =>{
+            const div = document.createElement("div")
+
+            div.classList.add("task")
+            div.setAttribute("draggable", "true")
+
+            div.innerHTML = `
+                <h2>${task.title}</h2>
+                <p>${task.desc}</p>
+                <button>Delete</button>
+            `
+            column.appendChild(div)
+
+            div.addEventListener("drag", (e)=>{
+                dragElement = div
+            })
+        })
+        
+    }
+}
+
 // console.log(todo, progress, done);   
 
 const task = document.querySelectorAll('.task')
@@ -66,6 +96,14 @@ function addDragEventOnColumn(column){
             const tasks = col.querySelectorAll(".task")
             const count = col.querySelector('.right')
 
+            taskData[ col.id ] = Array.from(tasks).map(t =>{
+                return {
+                    title: t.querySelector("h2").innerText,
+                    desc: t.querySelector('p').innerText
+                }
+            })
+
+            localStorage.setItem("tasks", JSON.stringify(taskData));            
             count.innerText = tasks.length;
         })
     })
