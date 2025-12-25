@@ -57,10 +57,7 @@ if(localStorage.getItem("tasks")){
             addTask(task.title, task.desc, column)
         })
         
-        // const tasks = column.querySelectorAll(".task")
-        // const count = column.querySelector(".right")
-        // count.innerText = tasks.length;
-    }
+     }
 
     updateTaskCount();
 
@@ -78,27 +75,6 @@ task.forEach(task => {
 })
 
 // // Drag enter 
-
-// progress.addEventListener("dragenter", (e)=>{
-//     progress.classList.add("hover-over")
-// })
-// done.addEventListener("dragenter", (e)=>{
-//     done.classList.add("hover-over")
-// })
-// todo.addEventListener("dragenter", (e)=>{
-//     todo.classList.add("hover-over")
-// })
-
-// // Drag leave
-// progress.addEventListener("dragleave", (e)=>{
-//     progress.classList.remove("hover-over")
-// })
-// done.addEventListener("dragleave", (e)=>{
-//     done.classList.remove("hover-over")
-// })
-// todo.addEventListener("dragleave", (e)=>{
-//     todo.classList.remove("hover-over")
-// })
 
 function addDragEventOnColumn(column){
     column.addEventListener("dragenter", (e)=>{
@@ -148,20 +124,8 @@ addTaskButton.addEventListener("click", ()=>{
     const taskTitle = document.querySelector('#task-title-input').value
     const taskDesc = document.querySelector('#task-desc-input').value
 
-    // const template = `<div draggable="true" class="task">  
-    //                 <h2>${taskTitle}</h2>
-    //                 <p>${taskDesc}</p>
-    //                 <button>Delete</button>
-    //             </div>`
-
     addTask(taskTitle, taskDesc, todo)
-
     updateTaskCount();
-
-    // div.addEventListener("drag", (e)=>{
-    //     dragElement = div
-    // })
-
     modal.classList.remove("active")
 })
 
