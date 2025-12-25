@@ -24,6 +24,12 @@ function addTask(title, desc, column){
         dragElement = div;
     })
 
+    const deleteButton = div.querySelector("button")
+    deleteButton.addEventListener("click", () =>{
+        div.remove()
+        updateTaskCount()
+    })
+
     return div;
 }
 
@@ -127,13 +133,4 @@ addTaskButton.addEventListener("click", ()=>{
     addTask(taskTitle, taskDesc, todo)
     updateTaskCount();
     modal.classList.remove("active")
-})
-
-
-/* Task Delete Logic */
-const delTaskBtn = document.querySelector('#del-task')
-const taskCol = document.querySelectorAll('.task-column')
-
-delTaskBtn.addEventListener("click", ()=>{
-    taskCol.classList.remove(".task")
 })
